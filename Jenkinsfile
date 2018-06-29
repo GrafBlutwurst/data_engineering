@@ -8,6 +8,8 @@ pipeline {
         DATA_SCIENCE_PATH    = '/var/jenkins_home/workspace/data_science'
         DATA_ENGINEERING_GIT = 'https://github.com/GrafBlutwurst/data_engineering.git'
         DATA_SCIENCE_GIT     = 'https://github.com/mkesy/data_science.git'
+        DATA_ENGINEERING_GIT_COMMIT_ID = ''
+        DATA_SCIENCE_GIT_COMMIT_ID = ''
      }
 
      stages {
@@ -25,9 +27,11 @@ pipeline {
                 steps {
                     script {
                         def dataScienceCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_SCIENCE_PATH}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_SCIENCE_GIT}"]]])
+                        env.DATA_SCIENCE_GIT_COMMIT_ID = dataScienceCommitID 
                     }
                     script {
                         def dataEngineeringCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_ENGINEERING_DIR}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_ENGINEERING_GIT}"]]])
+                        env.DATA_ENGINEERING_GIT_COMMIT_ID =  dataEngineeringCommitID
                     }
                 }
             }
@@ -56,7 +60,7 @@ pipeline {
 
                         dir("${env.DATA_ENGINEERING_DIR}") {
                             docker.withRegistry('https://localhost:5000') {
-                                def engineeringImage = docker.build("hackathon/data_engineering:${dataEngineeringCommitID}")
+                                def engineeringImage = docker.build("hackathon/data_engineering:${env.DATA_ENGINEERING_GIT_COMMIT_ID}")
                                 engineeringImage.push()
                             }
                             sh "nohup docker run -d --network=hackathoninfra_vn1  --name=decontainer -p 4000:80 hackathon/data_engineering &"
