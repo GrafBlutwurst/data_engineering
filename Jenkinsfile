@@ -31,7 +31,8 @@ pipeline {
                     }
                     script {
                         def dataEngineeringCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_ENGINEERING_DIR}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_ENGINEERING_GIT}"]]]).GIT_COMMIT
-                        env.DATA_ENGINEERING_GIT_COMMIT_ID =  dataEngineeringCommitID
+                        DATA_ENGINEERING_GIT_COMMIT_ID =  dataEngineeringCommitID
+                        env.DATA_ENGINEERING_GIT_COMMIT_ID = DATA_ENGINEERING_GIT_COMMIT_ID  
                     }
                 }
             }
