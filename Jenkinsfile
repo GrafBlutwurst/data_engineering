@@ -26,11 +26,11 @@ pipeline {
 
                 steps {
                     script {
-                        def dataScienceCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_SCIENCE_PATH}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_SCIENCE_GIT}"]]])
+                        def dataScienceCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_SCIENCE_PATH}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_SCIENCE_GIT}"]]]).GIT_COMMIT
                         env.DATA_SCIENCE_GIT_COMMIT_ID = dataScienceCommitID 
                     }
                     script {
-                        def dataEngineeringCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_ENGINEERING_DIR}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_ENGINEERING_GIT}"]]])
+                        def dataEngineeringCommitID = checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.DATA_ENGINEERING_DIR}"]], submoduleCfg: [], userRemoteConfigs: [[url: "${env.DATA_ENGINEERING_GIT}"]]]).GIT_COMMIT
                         env.DATA_ENGINEERING_GIT_COMMIT_ID =  dataEngineeringCommitID
                     }
                 }
