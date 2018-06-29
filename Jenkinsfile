@@ -52,7 +52,7 @@ pipeline {
 
                         dir("${env.DATA_ENGINEERING_DIR}") {
                             docker.withRegistry('https://localhost:5000') {
-                                def engineeringImage = docker.build("hackathon/data_engineering")
+                                def engineeringImage = docker.build("hackathon/data_engineering:${currentBuild.startTimeInMillis}")
                                 engineeringImage.push()
                             }
                             sh "nohup docker run -d --network=hackathoninfra_vn1  --name=decontainer -p 4000:80 hackathon/data_engineering &"
