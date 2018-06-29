@@ -51,7 +51,7 @@ pipeline {
                     script {
 
                         dir("${env.DATA_ENGINEERING_DIR}") {
-                            docker.withRegistry('localhost') {
+                            docker.withRegistry('https://localhost') {
                                 def engineeringImage = docker.build("hackathon/data_engineering")
                                 engineeringImage.push()
                             }
