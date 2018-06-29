@@ -6,7 +6,7 @@ pipeline {
 
         DATA_ENGINEERING_DIR = '/var/jenkins_home/workspace/data_engineering'
         DATA_SCIENCE_PATH    = '/var/jenkins_home/workspace/data_science'
-        DATA_ENGINEERING_GIT = 'https://github.com/mkesy/data_engineering.git'
+        DATA_ENGINEERING_GIT = 'https://github.com/GrafBlutwurst/data_engineering.git'
         DATA_SCIENCE_GIT     = 'https://github.com/mkesy/data_science.git'
      }
 
@@ -52,7 +52,7 @@ pipeline {
 
                         dir("${env.DATA_ENGINEERING_DIR}") {
                             docker.build("hackathon/data_engineering")
-                            sh "nohup docker run -d --network=hackathon_infra_vn1  --name=decontainer -p 4000:80 hackathon/data_engineering &"
+                            sh "nohup docker run -d --network=hackathoninfra_vn1  --name=decontainer -p 4000:80 hackathon/data_engineering &"
                         }
                     }
                  }
